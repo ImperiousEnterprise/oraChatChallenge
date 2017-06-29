@@ -42,7 +42,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        creds.getUsername(),
+                        creds.getEmail(),
                         creds.getPassword(),
                         Collections.emptyList()
                 )
@@ -61,7 +61,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         tokenHelper = WebApplicationContextUtils
                 .getWebApplicationContext(req.getServletContext()).getBean(TokenHelper.class);
         String toke = tokenHelper.getToken(req);
-        if(toke == null){
+        if(toke != null){
             res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + toke);
         }else{
             res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + tokenHelper.generateToken(auth.getName()));

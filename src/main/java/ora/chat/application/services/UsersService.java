@@ -10,5 +10,7 @@ import java.util.List;
 public interface UsersService {
     public Users findById(Long id);
     public Users findByUsername(String username);
+    public Users findByEmail(String email);
     public List<Users> findAll();
+    public Users saveUsers(Users user);
 }

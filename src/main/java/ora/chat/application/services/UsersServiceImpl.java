@@ -23,6 +23,11 @@ public class UsersServiceImpl implements UsersService {
         Users u = userRepository.findByUsername( username );
         return u;
     }
+    @Override
+    public Users findByEmail(String email ) throws UsernameNotFoundException {
+        Users u = userRepository.findByEmail( email );
+        return u;
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     public Users findById(Long id ) throws AccessDeniedException {
@@ -34,5 +39,9 @@ public class UsersServiceImpl implements UsersService {
     public List<Users> findAll() throws AccessDeniedException {
         List<Users> result = userRepository.findAll();
         return result;
+    }
+
+    public Users saveUsers(Users user){
+        return userRepository.save(user);
     }
 }
