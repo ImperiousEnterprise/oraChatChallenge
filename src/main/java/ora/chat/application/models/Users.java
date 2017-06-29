@@ -1,26 +1,21 @@
 package ora.chat.application.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ora.chat.application.globalerrors.SamePasswords;
 import ora.chat.application.globalerrors.StrongPassword;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Collection;
 import java.util.List;
 
 
 @Entity
-@Table(name="users")
+@Table(name="Users")
 @Getter
 @Setter
 @SamePasswords(groups = {Users.ValidationStepTwo.class})

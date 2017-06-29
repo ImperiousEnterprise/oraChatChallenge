@@ -12,7 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 
 public class JWTAuthenticationFilter extends GenericFilterBean {
@@ -40,6 +42,10 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
             Authentication authentication = tokenHelper.getAuthentication(authToken);
             SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
+            HttpServletResponse res = (HttpServletResponse) response;
+
+            res.addHeader("Authorization", "Bearer" + " " + authToken);
+            res.setContentType("application/json; charset=UTF-8");
         }
         filterChain.doFilter(request,response);
     }

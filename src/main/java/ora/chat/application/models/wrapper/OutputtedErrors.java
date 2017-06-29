@@ -18,7 +18,7 @@ public class OutputtedErrors {
 
     public OutputtedErrors(String message){
         this.message = message;
-        this.errors = new HashMap<String,ArrayList<String>>();;
+        this.errors = new HashMap<String,ArrayList<String>>();
     }
 
     public void addFieldError(String field, String errormessage) {

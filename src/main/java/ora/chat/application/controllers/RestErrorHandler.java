@@ -1,5 +1,6 @@
 package ora.chat.application.controllers;
 
+import ora.chat.application.globalerrors.ChatException;
 import ora.chat.application.models.wrapper.OutputtedErrors;
 
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -58,6 +60,25 @@ public class RestErrorHandler {
         message.addFieldError("DBError",e.getLocalizedMessage());
         return message;
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public OutputtedErrors processValidationError(MethodArgumentTypeMismatchException e) {
+        OutputtedErrors message = new OutputtedErrors("DataIntegrityViolationException");
+        message.addFieldError("TypeMisMatch",e.getLocalizedMessage());
+        return message;
+    }
+
+    @ExceptionHandler(ChatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public OutputtedErrors processValidationError(ChatException e) {
+        OutputtedErrors message = new OutputtedErrors("ChatException");
+        message.addFieldError(e.getProblem(),e.getLocalizedMessage());
+        return message;
+    }
+
 
 
     private OutputtedErrors processFieldError( List<FieldError> error) {

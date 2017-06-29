@@ -38,9 +38,6 @@ public class TokenHelper {
     @Value("${jwt.header}")
     private String AUTH_HEADER;
 
-    @Value("${jwt.cookie}")
-    private String AUTH_COOKIE;
-
     private HashMap<String, String> invalidated = new HashMap<String, String>();
 
     @Autowired
@@ -144,14 +141,27 @@ public class TokenHelper {
          *  e.g Bearer your_token
          */
         String authHeader = request.getHeader(AUTH_HEADER);
-        if ( authHeader == null) {
+        if ( HeaderNotNullOrEmpty(authHeader)) {
             return null;
-        }else if(authHeader.isEmpty()){
-            return  null;
         }else{
-            return authHeader;
+            if(authHeader.contains("Bearer")){
+                String toke = authHeader.substring(7);
+                return HeaderNotNullOrEmpty(toke) ? null : toke;
+            }else{
+                return null;
+            }
         }
 
+    }
+
+    private boolean HeaderNotNullOrEmpty(String authHeader){
+        if ( authHeader == null) {
+            return true;
+        }else if(authHeader.isEmpty()){
+            return  true;
+        }else{
+            return false;
+        }
     }
 
 
