@@ -2,9 +2,13 @@ package ora.chat.application.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ora.chat.application.models.AccountCredentials;
+import ora.chat.application.models.OutputResults;
+import ora.chat.application.models.Users;
 import ora.chat.application.services.TokenHelper;
 import ora.chat.application.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,11 +65,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         tokenHelper = WebApplicationContextUtils
                 .getWebApplicationContext(req.getServletContext()).getBean(TokenHelper.class);
         String toke = tokenHelper.getToken(req);
-        if(toke != null){
-            res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + toke);
-        }else{
-            res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + tokenHelper.generateToken(auth.getName()));
+        if(toke == null){
+            toke = tokenHelper.generateToken(auth.getName());
         }
+        res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + toke);
+
+        Users u =(Users)auth.getPrincipal();
+        OutputResults output = new OutputResults(u.getId(), u.getName(),u.getEmail());
+
+        res.setContentType("application/json");
+        res.getWriter().write( new ObjectMapper().writeValueAsString(output));
 
     }
 }
