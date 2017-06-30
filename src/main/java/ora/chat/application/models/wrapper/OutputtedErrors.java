@@ -1,4 +1,4 @@
-package ora.chat.application.models;
+package ora.chat.application.models.wrapper;
 
 import lombok.Getter;
 import lombok.Setter;

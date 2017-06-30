@@ -39,7 +39,7 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name",unique = true)
+    @Column(name = "name")
     @NotBlank(groups = {ValidationStepOne.class}, message = "error.name.notblank")
     private String name;
 

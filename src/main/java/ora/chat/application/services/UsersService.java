@@ -13,4 +13,5 @@ public interface UsersService {
     public Users findByEmail(String email);
     public List<Users> findAll();
     public Users saveUsers(Users user);
+    public Users getCurrentUser();
 }

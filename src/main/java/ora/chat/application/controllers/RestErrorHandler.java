@@ -1,6 +1,6 @@
 package ora.chat.application.controllers;
 
-import ora.chat.application.models.OutputtedErrors;
+import ora.chat.application.models.wrapper.OutputtedErrors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.i18n.LocaleContextHolder;

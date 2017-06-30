@@ -3,7 +3,7 @@ package ora.chat.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ora.chat.application.models.Authority;
-import ora.chat.application.models.OutputResults;
+import ora.chat.application.models.wrapper.OutputResults;
 import ora.chat.application.models.Users;
 import ora.chat.application.services.TokenHelper;
 import ora.chat.application.services.UsersService;
@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.BeanUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
