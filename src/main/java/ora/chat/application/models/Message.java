@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "ChatMessages")
+@Table(name = "messages")
 public class Message {
 
     @Id
@@ -34,7 +34,8 @@ public class Message {
     private Chat chat;
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdat;
 
 
 }

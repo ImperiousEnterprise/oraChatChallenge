@@ -32,11 +32,7 @@ public class Chat {
     private List<Message> messages = new ArrayList<Message>();
 
     public Message getLast_chat_message() {
-        if(messages.size() == 1){
-            return messages.get(messages.size()-1);
-        }else {
-            return messages.get(messages.size());
-        }
+        return messages.get(messages.size()-1);
     }
 
 }

@@ -17,13 +17,15 @@ public class OutputChats {
     private HashMap<String, Object> meta;
     private Object data;
 
+    public OutputChats(){}
+
     public OutputChats(Long id, List<Users> user, String name, Message last){
         data = new DataWrapper(Math.toIntExact(id),name,convertToOutputResutltsArray(user),last);
         meta = new HashMap<String, Object>();
     }
     public OutputChats( Message messagetoAdd, Users current, Chat chat){
         data = OutputMessages.builder().chat_id(chat.getId())
-                .create_at(messagetoAdd.getCreated_at())
+                .create_at(messagetoAdd.getCreatedat())
                 .id(messagetoAdd.getId())
                 .message(messagetoAdd.getMessage())
                 .user_id(current.getId())
@@ -31,7 +33,7 @@ public class OutputChats {
         meta = new HashMap<String, Object>();
     }
 
-    public OutputChats(Page<Chat> pageResults, int limit){
+    public void PaginateChats(Page<Chat> pageResults, int limit){
         Pagination p = new Pagination(pageResults.getNumber()+1,
                 limit,
                 pageResults.getTotalPages(),
@@ -42,7 +44,34 @@ public class OutputChats {
 
         meta = new HashMap<String, Object>();
         meta.put("pagination", p);
+    }
 
+    public void PaginateMessages(Page<Message> pageResults, int limit){
+        Pagination p = new Pagination(pageResults.getNumber()+1,
+                limit,
+                pageResults.getTotalPages(),
+                pageResults.getTotalElements());
+
+        data = convertMessagetoPaginationArray(pageResults.getContent());
+
+        meta = new HashMap<String, Object>();
+        meta.put("pagination", p);
+    }
+
+
+    private ArrayList<OutputMessages> convertMessagetoPaginationArray(List<Message> messages){
+        ArrayList<OutputMessages> wrapper = new ArrayList<OutputMessages>();
+        for(Message s : messages){
+            wrapper.add(OutputMessages.builder()
+                    .id(s.getId())
+                    .chat_id(s.getChat().getId())
+                    .create_at(s.getCreatedat())
+                    .message(s.getMessage())
+                    .user_id(s.getUser().getId())
+                    .user(new OutputResults(s.getUser().getId(),s.getUser().getName(),s.getUser().getEmail()).getData()).build());
+        }
+
+        return wrapper;
     }
 
     private ArrayList<DataWrapper> convertPaginationtoArray(List<Chat> chats){
@@ -78,7 +107,7 @@ public class OutputChats {
     }
 
     @Getter
-    public class DataWrapper {
+    class DataWrapper {
         private int id;
         private String name;
         private List<OutputResults.Data> users;
@@ -92,7 +121,7 @@ public class OutputChats {
                     .id(last.getId())
                     .chat_id(last.getChat().getId())
                     .message(last.getMessage())
-                    .create_at(last.getCreated_at())
+                    .create_at(last.getCreatedat())
                     .user_id(last.getUser().getId())
                     .user(new OutputResults(last.getUser().getId(),last.getUser().getName(),last.getUser().getEmail()).getData())
                     .build();

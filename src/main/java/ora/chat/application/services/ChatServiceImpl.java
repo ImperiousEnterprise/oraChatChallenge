@@ -34,6 +34,7 @@ public class ChatServiceImpl implements ChatService {
     public Chat findById(Long id){return chatRepository.findOne(id);}
 
     public Page<Chat> findByPage(int page, int limit){
+
         Pageable pageable = new PageRequest(page,limit, new Sort(new Order(Direction.DESC,"name")));
         return chatRepository.findAll(pageable);
     }

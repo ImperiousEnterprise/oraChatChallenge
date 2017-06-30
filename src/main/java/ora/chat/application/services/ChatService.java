@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
  * Created by zstaff on 2017/06/30.
  */
 public interface ChatService {
-    public Chat saveChat(Chat c);
-    public Chat findByIdAndUser(Long id,Users u);
-    public Chat findById(Long id);
+    Chat saveChat(Chat c);
+    Chat findByIdAndUser(Long id,Users u);
+    Chat findById(Long id);
     Page<Chat> findByPage(int page, int limit);
 }
