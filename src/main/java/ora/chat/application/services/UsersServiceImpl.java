@@ -5,6 +5,7 @@ import ora.chat.application.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,14 @@ public class UsersServiceImpl implements UsersService {
 
     public Users saveUsers(Users user){
         return userRepository.save(user);
+    }
+
+    public Users getCurrentUser(){
+        String email = (String) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return findByEmail(email);
+
     }
 }
