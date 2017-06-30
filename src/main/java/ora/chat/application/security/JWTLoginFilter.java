@@ -64,10 +64,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         tokenHelper = WebApplicationContextUtils
                 .getWebApplicationContext(req.getServletContext()).getBean(TokenHelper.class);
-        String toke = tokenHelper.getToken(req);
-        if(toke == null){
-            toke = tokenHelper.generateToken(auth.getName());
-        }
+        String toke = tokenHelper.getToken(req) != null ?  tokenHelper.getToken(req) :
+                tokenHelper.generateToken(auth.getName()) ;
+
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + toke);
 
         Users u =(Users)auth.getPrincipal();

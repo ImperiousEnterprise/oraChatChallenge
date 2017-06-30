@@ -144,11 +144,14 @@ public class TokenHelper {
          *  e.g Bearer your_token
          */
         String authHeader = request.getHeader(AUTH_HEADER);
-        if ( authHeader != null) {
+        if ( authHeader == null) {
+            return null;
+        }else if(authHeader.isEmpty()){
+            return  null;
+        }else{
             return authHeader;
         }
 
-        return null;
     }
 
 
